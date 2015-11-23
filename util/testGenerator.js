@@ -9,12 +9,12 @@ var enhancementCount = 0
 
 
 //formats the control or enhancement number
-// var formatControlNumber(number){
-//     return number.number.replace(/ /g, '_')
-//                         .replace(/-/g, '_')
-//                         .replace(/\)/g, '')
-//                         .replace(/\(/g,'')
-// }
+var formatControlNumber = function(number){
+    return number.replace(/ /g, '_')
+                        .replace(/-/g, '_')
+                        .replace(/\)/g, '')
+                        .replace(/\(/g,'')
+}
 
 
 var parseEnhancements = function(controlEnhancements){
@@ -23,10 +23,10 @@ var parseEnhancements = function(controlEnhancements){
         enhancementCount++
         if (controlEnhancements[i].number !== undefined ) { //ensuring the property is there
             var enhancement = controlEnhancements[i]
-            parsedEnhancements[enhancement.number] = enhancement.title
+            parsedEnhancements[formatControlNumber(enhancement.number)] = enhancement.title
         } else{ //edge case if there is only one enhancement...nist formatting or XML is awful
             var enhancement = controlEnhancements
-            parsedEnhancements[enhancement.number] = enhancement.title
+            parsedEnhancements[formatControlNumber(enhancement.number)] = enhancement.title
             break;
         }
     }
@@ -41,13 +41,15 @@ var parseControl = function(control,controlsDict){
         controlsDict[control.family] = {}
     } 
     controlCount++
-    controlsDict[control.family][control.title] = {}
-    controlsDict[control.family][control.title]['title'] = control.title
+    
+    control.number = formatControlNumber(control.number)
+    controlsDict[control.family][control.number] = {}
+    controlsDict[control.family][control.number]['title'] = control.title
     //console.log(control.family, control.number, control.title);
 
     if (control.hasOwnProperty('control-enhancements')){
         var controlEnhancementSet = control['control-enhancements']['control-enhancement']
-        controlsDict[control.family][control.title]['enhancements'] = parseEnhancements(controlEnhancementSet); 
+        controlsDict[control.family][control.number]['enhancements'] = parseEnhancements(controlEnhancementSet); 
     }
     return controlsDict
 }
@@ -59,10 +61,12 @@ var parseControlSet = function(controlSet){
         if (controlSet.hasOwnProperty(i)) { //ensuring the property is there
             controlsDict = parseControl(controlSet[i],controlsDict)
         }
-        //console.log(controlsDict)
-
+       
     }
+    return controlsDict
 }
 
-parseControlSet(controlJSON)
+parsedControls = parseControlSet(controlJSON);
 console.log("parsed ",familyCount," families ",controlCount," controls ", enhancementCount, " enhancementCount" )
+
+module.exports = parsedControls 
