@@ -11,12 +11,7 @@ var t1 = function(done) {
 var t2 = function(done) {
     done()
 }
-var t3 = function(done) {
-    done()
-}
-var t4 = function(done) {
-    done()
-}
+
 //this is a dictionary where all of the tests will be stored
 var test_dict = {}
 
@@ -35,20 +30,26 @@ var assembleTestDict = function(overlay, inheritedTests, implementedTests) {
 // var execute_test = function(test_name) {
 //     return test_dict[test_name]
 // }
+// 
+
 startTests = function(overlay, inheritedTests, implementedTests) {
     before(function(done) {
         var test_dict = assembleTestDict(overlay, inheritedTests, implementedTests)
         done()
     });
-    for(family in control_list){
-        describe(family,function(){
-            for (control in control_list[family]){
+    
+    for(family in control_list){ //for each of the 18 families in the controls 
+        describe(family,function(){ //create a sub catagory
+            for (control in control_list[family]){ //for all of the controls in each family
                 control_title = control_list[family][control].title
-                describe(control+" "+control_title,function(){
-                    it (control,t1)
-                    if (control_list[family][control].hasOwnProperty('enhancements')){
+                //TODO CHECK if in overlay here, if not skip! 
+                describe(control+" "+control_title,function(){ 
+                    it (control,t1) //this is the base control
+                /////////
+                    if (control_list[family][control].hasOwnProperty('enhancements')){ //checking to see if there are any enhancements
                         describe('enhancements',function(){
                             for (enhancement in control_list[family][control]['enhancements']){
+                                //TODO CHECK if in overlay here, if not skip! 
                                 enhancement_title = control_list[family][control]['enhancements'][enhancement]
                                 it(enhancement+" "+enhancement_title,t1)
                             }                        
@@ -59,12 +60,14 @@ startTests = function(overlay, inheritedTests, implementedTests) {
         });
     }
 };
+
+
 overlay = ['t1', 't2', 't4']
 inherited_dict = {
     't1': t1
 }
 implemented_dict = {
-    't2': t2
+    't2': t1
 }
 
 startTests(overlay,inherited_dict,implemented_dict);
