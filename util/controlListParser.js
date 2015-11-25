@@ -1,5 +1,5 @@
 // TODO Fix the output to load dynamically from the NIST website
-var controlJSON = require("../output/saved_800-53_rev4.json");
+var controlJSON = require("../800_53_controls/saved_800-53_rev4.json");
 
 var familyCount = 0
 var controlCount = 0

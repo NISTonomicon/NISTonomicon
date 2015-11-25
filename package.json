@@ -4,7 +4,7 @@
   "description": "NIST 800-53 Security Control Assessment Test Suite",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/exampleAU8.js"
+    "test": "mocha test"
   },
   "repository": {
     "type": "git",
