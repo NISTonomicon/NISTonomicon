@@ -62,11 +62,14 @@ var test_pending = function(done) {
         // nothing yet
     });
 }
-
-
+var overlay = require('../index.js').overlay
+var inherited_dict = require('../index.js').inherited_dict
+var implemented_dict = require('../index.js').implemented_dict
 var test_dict = assembleTestDict(overlay, inherited_dict, implemented_dict)
 startTests(control_list, test_dict);
 
+ 
+//=> 1 
 
 
 
