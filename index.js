@@ -5,11 +5,11 @@ var Mocha = require('mocha'),
 var mocha = new Mocha();
 mocha.addFile('./util/controlTestRunner.js');
 if(process.env.NODE_ENV === 'unit_test') { //unit testing of this module requires specific modification to test
-    module.exports = function(overlayParameter, inherited_dictParameter, implemented_dictParemeter, callback) {
+    module.exports = function(overlay, inherited_dict, implemented_dict, callback) {
         //overlay = overlayParameter;
-        module.exports.overlay = overlayParameter
-        module.exports.inherited_dict = inherited_dictParameter;
-        module.exports.implemented_dict = implemented_dictParemeter;
+        module.exports.overlay = overlay
+        module.exports.inherited_dict = inherited_dict;
+        module.exports.implemented_dict = implemented_dict;
         defaultConsolelog = console.log
         console.log = function() {}
         //defining mocha behavior
@@ -32,10 +32,10 @@ if(process.env.NODE_ENV === 'unit_test') { //unit testing of this module require
         });;
     }
 } else {
-    module.exports = function(overlayParameter, inherited_dictParameter, implemented_dictParemeter, callback) {
-        var overlay = overlayParameter;
-        var inherited_dict = inherited_dictParameter;
-        var implemented_dict = implemented_dictParemeter;
+    module.exports = function(overlay, inherited_dict, implemented_dict, callback) {
+        module.exports.overlay = overlay
+        module.exports.inherited_dict = inherited_dict;
+        module.exports.implemented_dict = implemented_dict;
         // Run the tests.
         mocha.run(function(failures) {
             callback(failures);
