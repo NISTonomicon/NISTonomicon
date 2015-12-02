@@ -29,6 +29,7 @@
     "mocha": "~2.3.3",
     "jsonfile": "~2.2.3",
     "should": "~7.1.1",
-    "clear-require": "~1.0.1"
+    "clear-require": "~1.0.1",
+    "mockery": "~1.4.0"
   }
 }

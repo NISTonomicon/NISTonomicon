@@ -1,9 +1,7 @@
 process.env.NODE_ENV = 'unit_test';
 assert = require('assert');
 var control_tester = require('../index.js');
-
-var clearRequire = require('clear-require');
- 
+var mockery = require('mockery');
  
 
 var should = require('should')
@@ -24,8 +22,8 @@ var implemented_dict = {
 }
 startTests = function() {
     beforeEach(function(){
-        //clearRequire('../index.js');
-        //control_tester = require('../index.js');
+        mockery.deregisterAll();
+        mockery.resetCache();
     })
     it('should pass in an overlay of 4, with 2 passing, 1 failing and 1 pending', function(done) {
         control_tester(overlay, inherited_dict, implemented_dict, function(resultCount) {
