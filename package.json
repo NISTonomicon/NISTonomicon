@@ -4,7 +4,7 @@
   "description": "NIST 800-53 Security Control Assessment Test Suite",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test"
+    "test": "mocha test/test.js"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,10 @@
   "dependencies": {
     "request": "~2.65.0",
     "xml-to-json": "~0.1.1",
-    "mocha": "~2.3.3"
+    "mocha": "~2.3.3",
+    "jsonfile": "~2.2.3",
+    "should": "~7.1.1",
+    "clear-require": "~1.0.1",
+    "mockery": "~1.4.0"
   }
 }
