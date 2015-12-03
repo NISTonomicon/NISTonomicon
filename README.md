@@ -2,8 +2,9 @@
 
 ![As for writing the NIST 800-53 Controls—I wish I had the energy and ingenuity to do it! I fear it would be quite a job in view of the very diverse passages and intimations which I have in the course of time attributed to it! - More or less H.P. Lovecraft](http://i.imgur.com/BGA3AUK.png?1)
 
-A [NIST 800-53](https://web.nvd.nist.gov/view/800-53/home) Security Control Assessment Test Suite
 [![Build Status](https://travis-ci.org/hortinstein/NISTonomicon.svg)](https://travis-ci.org/hortinstein/NISTonomicon)
+
+A [NIST 800-53](https://web.nvd.nist.gov/view/800-53/home) Security Control Assessment Test Suite
 
 In the United States, all Federal Government information systems are regulated by the [Federal Information Security Management Act](http://en.wikipedia.org/wiki/Federal_Information_Security_Management_Act_of_2002) (FISMA). This law empowers the [National Institute for Standards and Technology](http://www.nist.gov/) (NIST) to issue guidance on what security controls should exist on information systems.
 
