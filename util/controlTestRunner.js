@@ -54,12 +54,16 @@ var test_pending = function(done) {
     });
 }
 
-
-
-var overlay = require('../index.js').overlay
-var inherited_dict = require('../index.js').inherited_dict
-var implemented_dict = require('../index.js').implemented_dict
-
-
+if(process.env.NODE_ENV === 'unit_test') {
+    defaultConsolelog('############', process.env.test_file)
+    var overlay = require(process.env.test_file).overlay
+    var inherited_dict = require(process.env.test_file).inherited_dict
+    var implemented_dict = require(process.env.test_file).implemented_dict
+    delete require.cache[process.env.test_file];
+} else {
+    var overlay = require('../index.js').overlay
+    var inherited_dict = require('../index.js').inherited_dict
+    var implemented_dict = require('../index.js').implemented_dict
+}
 var test_dict = assembleTestDict(overlay, inherited_dict, implemented_dict);
 startTests(control_list, test_dict);
