@@ -4,7 +4,7 @@ var Mocha = require('mocha'),
     fs = require('fs'),
     path = require('path');
 var mocha = new Mocha({
-    reporter:'json'
+    //reporter:'json'
 });
 mocha.addFile('./util/controlTestRunner.js');
 

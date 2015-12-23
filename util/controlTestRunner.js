@@ -1,9 +1,46 @@
-
 var Mocha = require('mocha')
 var control_list = require('./controlListParser.js')
 //this function takes the overlay, inherited tests and implemented tests and builds a dictionary 
+var appendInheritedTest = function(provider, control_name, f, test_dict) {
+    if(test_dict.hasOwnProperty(control_name)) { //if it already has a test entry for this control test
+        console.log(test_dict)
+        test_dict[control_name].push({
+            f: f,
+            provider: provider
+        })
+    } else {
+        test_dict[control_name] = [{
+            f: f,
+            provider: provider
+        }]
+    }
+    return test_dict
+}
+var inheritanceBuilder = function(inheritedTests) {
+    test_dict = {}
+    if(inheritedTests === {} || inheritedTests === [] || inheritedTests === null) {
+        return test_dict
+    } else {
+        for(item in inheritedTests) {
+            //no specified provider
+            if(inheritedTests[item].constructor == Function) { //single inherited function
+                console.log('function');
+                test_dict = appendInheritedTest('unknown provider', item, inheritedTests[item], test_dict)
+                //specificed provider
+            } else if(inheritedTests[item].constructor == Object) { //checks to see if this is a list of providers
+                controlProvider = inheritedTests[item]
+                controlProviderName = item
+                for(control in controlProvider) {
+                    test_dict = appendInheritedTest(controlProviderName, control, controlProvider[control], test_dict)
+                }
+            }
+        }
+    }
+    return test_dict
+}
 var assembleTestDict = function(overlay, inheritedTests, implementedTests) {
     var test_dict = {}
+    inheritedTests = inheritanceBuilder(inheritedTests)
     for(control in overlay) {
         control_name = overlay[control]
         if(inheritedTests.hasOwnProperty(control_name)) { //checks first for inherited tests
@@ -18,7 +55,13 @@ var assembleTestDict = function(overlay, inheritedTests, implementedTests) {
 }
 var executeTest = function(test_name, test) {
     if(undefined !== test) {
-        it(test_name, test)
+        if(test.constructor == Array) { //inheritance parsing
+            for (itest in test){
+                it(test_name+' (inheried from '+test[itest].provider+')',test[itest].f)
+            }
+        } else { // an implemented test
+            it(test_name, test)
+        }
     }
 }
 var executeEnhancements = function(enhancements, test_dict) {
