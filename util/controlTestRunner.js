@@ -1,7 +1,7 @@
 var Mocha = require('mocha')
 var control_list = require('./controlListParser.js')
 //this function takes the overlay, inherited tests and implemented tests and builds a dictionary 
-var appendInheritedTest = function(provider, control_name, f, test_dict) {
+var appendTest = function(provider, control_name, f, test_dict) {
     if(test_dict.hasOwnProperty(control_name)) { //if it already has a test entry for this control test
         console.log(test_dict)
         test_dict[control_name].push({
@@ -25,13 +25,13 @@ var inheritanceBuilder = function(inheritedTests) {
             //no specified provider
             if(inheritedTests[item].constructor == Function) { //single inherited function
                 console.log('function');
-                test_dict = appendInheritedTest('unknown provider', item, inheritedTests[item], test_dict)
+                test_dict = appendTest('inheritance provider uknown', item, inheritedTests[item], test_dict)
                 //specificed provider
             } else if(inheritedTests[item].constructor == Object) { //checks to see if this is a list of providers
                 controlProvider = inheritedTests[item]
                 controlProviderName = item
                 for(control in controlProvider) {
-                    test_dict = appendInheritedTest(controlProviderName, control, controlProvider[control], test_dict)
+                    test_dict = appendTest('inherited from ' + controlProviderName, control, controlProvider[control], test_dict)
                 }
             }
         }
@@ -41,23 +41,32 @@ var inheritanceBuilder = function(inheritedTests) {
 var assembleTestDict = function(overlay, inheritedTests, implementedTests) {
     var test_dict = {}
     inheritedTests = inheritanceBuilder(inheritedTests)
+    //         if(implementedTests.hasOwnProperty(control_name)) { //checks for implemented tests 
+    //             console.log(test_dict)
+    //             if(test_dict.hasOwnProperty(control_name)) { //if there are inherited tests and implemented tests
+    //                 test_dict = appendTest('implemented by project', control_name, implementedTests[control_name], test_dict)
+    //             }
     for(control in overlay) {
         control_name = overlay[control]
-        if(inheritedTests.hasOwnProperty(control_name)) { //checks first for inherited tests
+        if( inheritedTests.hasOwnProperty(control_name) && implementedTests.hasOwnProperty(control_name)){
             test_dict[control_name] = inheritedTests[control_name];
-        } else if(implementedTests.hasOwnProperty(control_name)) { //checks for implemented tests
+            test_dict = appendTest('suppied test',control_name,implementedTests[control_name], test_dict)
+        } else if(inheritedTests.hasOwnProperty(control_name)) { //checks first for inherited tests
+            test_dict[control_name] = inheritedTests[control_name];
+        } else if(implementedTests.hasOwnProperty(control_name)) {
             test_dict[control_name] = implementedTests[control_name];
         } else {
             test_dict[control_name] = test_pending //adds in pending for potential new tests
         }
     }
+    console.log(test_dict)
     return test_dict
 }
 var executeTest = function(test_name, test) {
     if(undefined !== test) {
         if(test.constructor == Array) { //inheritance parsing
-            for (itest in test){
-                it(test_name+' (inheried from '+test[itest].provider+')',test[itest].f)
+            for(itest in test) {
+                it(test_name + ' (' + test[itest].provider + ')', test[itest].f)
             }
         } else { // an implemented test
             it(test_name, test)

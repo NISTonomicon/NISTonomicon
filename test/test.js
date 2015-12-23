@@ -13,7 +13,9 @@ var spawnTest = function(test_file,callback){
         //console.log(data.toString('ascii'))
     });
     controlTest.on('close', function(code) {
+     
         resultString = (last_data.toString('ascii')).slice(1,-2);
+        //console.log(resultString)
         resultCount = {
             pending: parseInt(resultString.split(',')[0].split(':')[1].replace(/ /g,'')),
             passing: parseInt(resultString.split(',')[1].split(':')[1].replace(/ /g,'')),
@@ -42,11 +44,21 @@ startTests = function() {
             done();
         })
     });
-//     it('should pass an example of lists of inheritable dictionaries', function(done) {
-//         spawnTest('./test/testcase_function_configs/testcase_multiple_inherited_lists.js', function(resultCount) {
-            
-//         })
-//     });
+    it('should pass an example of lists of inheritable dictionaries', function(done) {
+        spawnTest('./test/testcase_function_configs/testcase_multiple_inherited_lists.js', function(resultCount) {
+            resultCount.passing.should.equal(3);
+            done()
+        })
+    });
+        
+    it('should run tests on both inherited and implemented', function(done) {
+        spawnTest('./test/testcase_function_configs/testcase_inherited_and_implemented.js', function(resultCount) {
+            resultCount.failing.should.equal(1);
+            done()
+        })
+    });
+    
+    
     it('should download the latest version of the NIST 800-53 Controls', function(done) {
         this.skip()
     });
