@@ -17,7 +17,7 @@ This test suite is a way to structure and automate the assessment of these [NIST
 
 ### TODO
 - Standard logging for all tests
-- Handle multiple inherited security controls
+- ~~Handle multiple inherited security controls~~  added 12/23/2015
 - plot inheritance graph
 - search other 
 - create gui for scaffolding a inheritable test suite
