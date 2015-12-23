@@ -13,7 +13,7 @@ org_provided_list_2 = {
     'SI_8_1': passing
 }
 
-module.exports.inheritance_dict = {
+module.exports.inherited_dict = {
     'org1': org_provided_list_1,
     'org2': org_provided_list_2
 }
