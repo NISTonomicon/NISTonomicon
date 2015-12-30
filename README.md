@@ -2,7 +2,7 @@
 
 ![As for writing the NIST 800-53 Controls—I wish I had the energy and ingenuity to do it! I fear it would be quite a job in view of the very diverse passages and intimations which I have in the course of time attributed to it! - More or less H.P. Lovecraft](http://i.imgur.com/BGA3AUK.png?1)
 
-[![Build Status](https://travis-ci.org/NISTonomicon/NISTonomicon.svg)](https://travis-ci.org/hortinstein/NISTonomicon)
+[![Build Status](https://travis-ci.org/NISTonomicon/NISTonomicon.svg)](https://travis-ci.org/NISTonomicon/NISTonomicon)
 
 A [NIST 800-53](https://web.nvd.nist.gov/view/800-53/home) Security Control Assessment Test Suite
 
