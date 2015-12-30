@@ -6,7 +6,7 @@ var Mocha = require('mocha'),
 var mocha = new Mocha({
     //reporter:'json'
 });
-mocha.addFile('./util/controlTestRunner.js');
+mocha.addFile(__dirname+'/util/controlTestRunner.js');
 
 var runTests = function(overlay, inherited_dict, implemented_dict, callback) {
     module.exports.overlay = overlay
