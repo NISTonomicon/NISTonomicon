@@ -3,7 +3,7 @@ var control_list = require('./controlListParser.js')
 //this function takes the overlay, inherited tests and implemented tests and builds a dictionary 
 var appendTest = function(provider, control_name, f, test_dict) {
     if(test_dict.hasOwnProperty(control_name)) { //if it already has a test entry for this control test
-        console.log(test_dict)
+        //console.log(test_dict)
         test_dict[control_name].push({
             f: f,
             provider: provider
@@ -24,7 +24,7 @@ var inheritanceBuilder = function(inheritedTests) {
         for(item in inheritedTests) {
             //no specified provider
             if(inheritedTests[item].constructor == Function) { //single inherited function
-                console.log('function');
+                //console.log('function');
                 test_dict = appendTest('inheritance provider uknown', item, inheritedTests[item], test_dict)
                 //specificed provider
             } else if(inheritedTests[item].constructor == Object) { //checks to see if this is a list of providers
@@ -48,9 +48,9 @@ var assembleTestDict = function(overlay, inheritedTests, implementedTests) {
     //             }
     for(control in overlay) {
         control_name = overlay[control]
-        if( inheritedTests.hasOwnProperty(control_name) && implementedTests.hasOwnProperty(control_name)){
+        if(inheritedTests.hasOwnProperty(control_name) && implementedTests.hasOwnProperty(control_name)) {
             test_dict[control_name] = inheritedTests[control_name];
-            test_dict = appendTest('suppied test',control_name,implementedTests[control_name], test_dict)
+            test_dict = appendTest('supplied test', control_name, implementedTests[control_name], test_dict)
         } else if(inheritedTests.hasOwnProperty(control_name)) { //checks first for inherited tests
             test_dict[control_name] = inheritedTests[control_name];
         } else if(implementedTests.hasOwnProperty(control_name)) {
@@ -59,17 +59,25 @@ var assembleTestDict = function(overlay, inheritedTests, implementedTests) {
             test_dict[control_name] = test_pending //adds in pending for potential new tests
         }
     }
-    console.log(test_dict)
+    //console.log(test_dict)
     return test_dict
 }
 var executeTest = function(test_name, test) {
     if(undefined !== test) {
         if(test.constructor == Array) { //inheritance parsing
             for(itest in test) {
-                it(test_name + ' (' + test[itest].provider + ')', test[itest].f)
+                if(test[itest].f.hasOwnProperty('metadata')) { //this checks to see if the test has attached metadata
+                    it(test_name + ' (' + test[itest].provider + ')', test[itest].f.f)
+                } else {
+                    it(test_name + ' (' + test[itest].provider + ')', test[itest].f)
+                }
             }
         } else { // an implemented test
-            it(test_name, test)
+            if(test.hasOwnProperty('metadata')) { //this checks to see if the test has attached metadata
+                it (test_name,test.f)
+            } else {
+                it(test_name, test)
+            }
         }
     }
 }

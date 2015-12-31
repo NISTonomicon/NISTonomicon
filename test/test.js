@@ -60,6 +60,13 @@ startTests = function() {
             done()
         })
     });
+    it('should be able to process a function with metadata fields', function(done) {
+        spawnTest('./test/testcase_function_configs/testcase_metadata.js', function(resultCount) {
+            resultCount.passing.should.equal(2);
+            resultCount.failing.should.equal(1);
+            done()
+        })
+    });
     it('should download the latest version of the NIST 800-53 Controls', function(done) {
         this.skip()
     });

@@ -13,8 +13,6 @@ var runTests = function(overlay, inherited_dict, implemented_dict, callback) {
     module.exports.inherited_dict = inherited_dict;
     module.exports.implemented_dict = implemented_dict;
     
-    console.log(inherited_dict)
-    
     // Run the tests.
     var resultCount = {
         "pending": 0,
