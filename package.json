@@ -1,6 +1,6 @@
 {
     "name": "nistonomicon",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "description": "NIST 800-53 Security Control Assessment Test Suite",
     "main": "index.js",
     "scripts": {
