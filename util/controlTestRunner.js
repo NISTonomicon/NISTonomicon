@@ -1,5 +1,5 @@
 var Mocha = require('mocha')
-var control_list = require('./controlListParser.js')
+var control_list = require('./controlListParser.js').parsedControls
 var reportBuilder = require('./reportBuilder.js')
 
 //this function takes the overlay, inherited tests and implemented tests and builds a dictionary 

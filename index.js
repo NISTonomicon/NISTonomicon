@@ -23,7 +23,7 @@ var runTests = function(overlay, inherited_dict, implemented_dict, callback) {
     }
     // Run the tests.
     mocha.run(function(failures) {
-        callback(resultCount);
+        callback(resultCount,reportBuilder.buildReportVerbose());
     }).on('pass', function(test) {
         reportBuilder.addPassing(test.title,test)
         resultCount['passing']++
@@ -40,9 +40,10 @@ if(require.main === module) { //called directly as an executable
     var overlay = require(tests_file).overlay
     var inherited_dict = require(tests_file).inherited_dict
     var implemented_dict = require(tests_file).implemented_dict
-    runTests(overlay,inherited_dict,implemented_dict,function(result){
+    runTests(overlay,inherited_dict,implemented_dict,function(result,report){
+        console.log(report)
         console.log(result)
-        reportBuilder.buildReportVerbose()
+        
     })
 } else {//required as a module
     module.exports = runTests;

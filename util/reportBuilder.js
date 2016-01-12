@@ -29,20 +29,23 @@ buildReport.returnReport = function(){
     for (result in report_results){
         consolidated_report[result] = {}
         if (report_metadata.hasOwnProperty(result)){
-            consolidated_report[result].metadata = report_metadata[result];
+            consolidated_report[result].test_metadata = report_metadata[result];
         }     
-        consolidated_report[result].result = report_results[result]
+        consolidated_report[result].test_result = report_results[result]
     }
     return( consolidated_report)
 }
 
 buildReport.buildReportVerbose = function(){
     var consolidated_report = buildReport.returnReport();
-    var control_list = require('./controlListParser.js')
+    var implementation_guidance = require('./controlListParser.js').implementationGuidance
+   
+    
     for (test in consolidated_report){
         control_number = test.split(' ')[0]
-     
+        consolidated_report[test].implementation_guidance = implementation_guidance[control_number];
     }
+    return(consolidated_report)
 }
 
 module.exports = buildReport
