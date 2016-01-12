@@ -16,12 +16,11 @@ This test suite is a way to structure and automate the assessment of these [NIST
 
 
 ### TODO
-- Standard logging for all tests
+- ~~allow metadata for tests~~ added 12/2015 may need to clean up api...
 - ~~Handle multiple inherited security controls~~  added 12/23/2015
 - plot inheritance graph
-- search other 
+- search other modules
 - create gui for scaffolding a inheritable test suite
-- create gui for 
 - Output reports 
     - Security Controls Traceability Matrix 
     - Dated reports
