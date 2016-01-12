@@ -4,8 +4,6 @@ sudo: false
 
 node_js:
   - "5"
-  - "4.2"
-  - "4.1"
-  - "4.0"
+  - "4"
   - "node"
   - "iojs"
