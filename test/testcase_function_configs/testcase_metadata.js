@@ -1,19 +1,22 @@
-var passing = function(done) {
-    done()
+var passing = {
+    f: function(done) {
+        done();
+    },
+    metadata: {
+        implementation: 'This is a test implementation that automatically passes'
+    }
 }
 var failing = {
     f: function(done) {
-        throw new Error("error");
+        throw new Error("This is an error thrown by the package!");
     },
     metadata: {
-        status: 'green'
+        implementation: 'This is a test implementation that throws an error'
     }
 }
 module.exports.overlay = ['SI_8_1', 'SI_8_2', 'PM_6', 'SC_8_1', 'cr_213']
-var PM_6 = {
-    f: passing,
-    metadata: {}
-}
+var PM_6 = passing
+
 PM_6.metadata['status'] = 'green'
 org_provided_list_1 = {
     'PM_6': PM_6

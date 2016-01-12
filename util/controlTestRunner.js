@@ -1,5 +1,7 @@
 var Mocha = require('mocha')
 var control_list = require('./controlListParser.js')
+var reportBuilder = require('./reportBuilder.js')
+
 //this function takes the overlay, inherited tests and implemented tests and builds a dictionary 
 var appendTest = function(provider, control_name, f, test_dict) {
     if(test_dict.hasOwnProperty(control_name)) { //if it already has a test entry for this control test
@@ -66,8 +68,10 @@ var executeTest = function(test_name, test) {
     if(undefined !== test) {
         if(test.constructor == Array) { //inheritance parsing
             for(itest in test) {
+                var test_full_name = test_name + ' (' + test[itest].provider + ')'
                 if(test[itest].f.hasOwnProperty('metadata')) { //this checks to see if the test has attached metadata
-                    it(test_name + ' (' + test[itest].provider + ')', test[itest].f.f)
+                    it(test_full_name, test[itest].f.f)
+                    reportBuilder.addMetadata(test_full_name, test[itest].f.metadata)
                 } else {
                     it(test_name + ' (' + test[itest].provider + ')', test[itest].f)
                 }
@@ -75,6 +79,7 @@ var executeTest = function(test_name, test) {
         } else { // an implemented test
             if(test.hasOwnProperty('metadata')) { //this checks to see if the test has attached metadata
                 it (test_name,test.f)
+                reportBuilder.addMetadata(test_name,test.metadata)
             } else {
                 it(test_name, test)
             }

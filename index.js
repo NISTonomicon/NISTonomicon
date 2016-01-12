@@ -8,6 +8,8 @@ var mocha = new Mocha({
 });
 mocha.addFile(__dirname+'/util/controlTestRunner.js');
 
+var reportBuilder = require(__dirname+'/util/reportBuilder.js');
+
 var runTests = function(overlay, inherited_dict, implemented_dict, callback) {
     module.exports.overlay = overlay
     module.exports.inherited_dict = inherited_dict;
@@ -23,10 +25,13 @@ var runTests = function(overlay, inherited_dict, implemented_dict, callback) {
     mocha.run(function(failures) {
         callback(resultCount);
     }).on('pass', function(test) {
+        reportBuilder.addPassing(test.title,test)
         resultCount['passing']++
     }).on('fail', function(test, err) {
+        reportBuilder.addFailing(test.title,test,err)
         resultCount['failing']++
-    }).on('pending', function() {
+    }).on('pending', function(test) {
+        reportBuilder.addPending(test.title)
         resultCount['pending']++
     });;
 }
@@ -37,6 +42,7 @@ if(require.main === module) { //called directly as an executable
     var implemented_dict = require(tests_file).implemented_dict
     runTests(overlay,inherited_dict,implemented_dict,function(result){
         console.log(result)
+        reportBuilder.buildReportVerbose()
     })
 } else {//required as a module
     module.exports = runTests;
